@@ -14,7 +14,6 @@ private:
 	boost::asio::io_service m_service;
 	boost::asio::ip::tcp::socket m_socket;
 	boost::asio::ip::tcp::endpoint m_endpoint;
-	boost::asio::io_context m_context;
 };
 
 SyncClient::SyncClient() :	m_endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8001),
