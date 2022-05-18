@@ -8,14 +8,20 @@ class Server
 {
 public:
 	Server() :	m_socket(m_ioService), 
-				acceptor(m_ioService, ip::tcp::endpoint(ip::tcp::v4(), 1234)) { }
+				m_acceptor(m_ioService, ip::tcp::endpoint(ip::tcp::v4(), 1234)) { }
+	void start();
 	std::string readStringFromClient();
 	void writeStringForClient(std::string message);
 private:
 	boost::asio::ip::tcp::socket m_socket;
 	boost::asio::io_service m_ioService;
-	ip::tcp::acceptor acceptor;
+	ip::tcp::acceptor m_acceptor;
 };
+
+inline void Server::start()
+{
+	m_acceptor.accept(m_socket);
+}
 
 std::string Server::readStringFromClient()
 {
