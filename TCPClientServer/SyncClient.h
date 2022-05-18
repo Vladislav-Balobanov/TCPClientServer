@@ -1,13 +1,14 @@
 #pragma once
 #include <iostream>
-#include <boost/asio.hpp>
-#include <boost/thread.hpp>
+#include <boost\asio.hpp>
+#include <boost\thread.hpp>
 
 class SyncClient
 {
 public:
 	SyncClient();
 	~SyncClient();
+	bool syncConnect();
 private:
 	boost::asio::io_service m_service;
 	boost::asio::ip::tcp::socket m_socket;
@@ -20,3 +21,10 @@ SyncClient::SyncClient() :	m_endpoint(boost::asio::ip::address::from_string("127
 							m_socket(m_service),
 							m_thread([&]() {m_socket.connect(m_endpoint); })
 { }
+
+inline bool SyncClient::syncConnect()
+{
+	m_socket.connect(m_endpoint);
+	m_service.run();
+	return false;
+}
