@@ -12,6 +12,10 @@ public:
 	{
 		m_ioService.run();
 	}
+	~Client() 
+	{
+		m_ioService.stop();
+	}
 	void syncConnect();
 	void disconnect();
 	void sendString(std::string message);
