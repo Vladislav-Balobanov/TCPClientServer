@@ -14,6 +14,7 @@ public:
 	}
 	void syncConnect();
 	void disconnect();
+	void sendString(std::string message);
 private:
 	boost::asio::io_service m_ioService;
 	tcp::socket m_socket;
@@ -28,4 +29,10 @@ void Client::syncConnect()
 inline void Client::disconnect()
 {
 	m_socket.shutdown(tcp::socket::shutdown_both);
+}
+
+inline void Client::sendString(std::string message)
+{
+	message += "\n";
+	boost::asio::write(m_socket, boost::asio::buffer(message));
 }
