@@ -18,9 +18,23 @@ public:
 	{
 		m_ioService.stop();
 	}
+
+	void start();
+	void stop();
 private:
 	boost::asio::io_service m_ioService;
 	tcp::socket m_socket;
 	tcp::endpoint m_endpoint;
 	tcp::acceptor m_acceptor;
 };
+
+void Server::start()
+{
+	m_socket.connect(m_endpoint);
+	m_acceptor.accept(m_socket);
+}
+
+void Server::stop()
+{
+	m_socket.shutdown(tcp::socket::shutdown_both);
+}
