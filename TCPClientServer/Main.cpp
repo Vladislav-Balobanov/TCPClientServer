@@ -9,7 +9,7 @@ using namespace boost::asio;
 int main()
 {
 	boost::asio::io_service ioService;
-	SyncClient client(ioService);
+	Client client(ioService);
 	Server server(ioService);
 
 	client.syncConnect();

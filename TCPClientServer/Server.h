@@ -9,7 +9,7 @@ class Server
 {
 public:
 	Server(io_service& ioService) :	m_socket(ioService), 
-									m_acceptor(ioService, ip::tcp::endpoint(ip::tcp::v4(), 8001)) 
+									m_acceptor(ioService, ip::tcp::endpoint(ip::tcp::v4(), 80)) 
 	{ }
 	~Server()
 	{
