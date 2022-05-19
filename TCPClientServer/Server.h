@@ -9,8 +9,16 @@ class Server
 {
 public:
 	Server(io_service& ioService) :	m_socket(ioService), 
-									m_acceptor(ioService, ip::tcp::endpoint(ip::tcp::v4(), 8001)) { }
+									m_acceptor(ioService, ip::tcp::endpoint(ip::tcp::v4(), 8001)) 
+	{
+		start();
+	}
+	~Server()
+	{
+		stop();
+	}
 	void start();
+	void stop();
 	std::string readStringFromClient();
 	void writeStringForClient(std::string message);
 private:
@@ -21,7 +29,12 @@ private:
 
 inline void Server::start()
 {
-	m_acceptor.accept(m_socket);
+	m_thread = std::thread([&]() {m_acceptor.accept(m_socket); });
+}
+
+inline void Server::stop()
+{
+	m_acceptor.close();
 }
 
 std::string Server::readStringFromClient()
