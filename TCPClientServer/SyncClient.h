@@ -31,5 +31,5 @@ inline void SyncClient::syncConnect()
 inline void SyncClient::writeString(std::string message)
 {
 	const std::string msg = message + "\n";
-	boost::asio::write(m_socket, boost::asio::buffer(message));
+	boost::asio::write(m_socket, boost::asio::buffer(msg));
 }
