@@ -9,7 +9,9 @@ class Client
 public:
 	Client() :	m_socket(m_ioService),
 				m_endpoint(address::from_string("127.0.0.1"), 80) 
-	{}
+	{
+		m_ioService.run();
+	}
 	void syncConnect();
 	void disconnect();
 private:
@@ -17,3 +19,13 @@ private:
 	tcp::socket m_socket;
 	tcp::endpoint m_endpoint;
 };
+
+void Client::syncConnect()
+{
+	m_socket.connect(m_endpoint);
+}
+
+inline void Client::disconnect()
+{
+	m_socket.shutdown(tcp::socket::shutdown_both);
+}
