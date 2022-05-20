@@ -7,15 +7,13 @@ using namespace boost::asio::ip;
 class Client
 {
 public:
-	Client() :	m_socket(m_ioService),
-				m_endpoint(address::from_string("127.0.0.1"), 80) 
-	{
-		m_ioService.run();
-	}
-	~Client() 
-	{
-		m_ioService.stop();
-	}
+	Client(boost::asio::io_service& ioService, 
+		tcp::endpoint endpoint) : 
+			m_socket(ioService),
+			m_endpoint(endpoint)
+	{}
+	~Client() {}
+
 	void syncConnect();
 	void disconnect();
 	void sendString(std::string message);
