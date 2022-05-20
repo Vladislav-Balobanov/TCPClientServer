@@ -23,13 +23,12 @@ private:
 	tcp::socket m_socket;
 	tcp::endpoint m_endpoint;
 	tcp::acceptor m_acceptor;
+	boost::thread m_thread;
 };
 
 void Server::start()
 {
-	
-	m_socket.open();
-	m_acceptor.accept(m_socket);
+	m_thread = boost::thread([&]() {m_acceptor.accept(m_socket); });
 }
 
 void Server::stop()

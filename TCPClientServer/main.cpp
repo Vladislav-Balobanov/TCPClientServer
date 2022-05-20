@@ -13,4 +13,7 @@ int main()
 	Server server(ioService, endpoint);
 	Client client(ioService, endpoint);
 	server.start();
+	client.syncConnect();
+
+	return 0;
 }
