@@ -1,6 +1,7 @@
 #pragma once
 #include <boost\asio.hpp>
 #include <boost\system.hpp>
+#include <boost\thread.hpp>
 
 using namespace boost::asio::ip;
 
@@ -21,11 +22,12 @@ private:
 	boost::asio::io_service m_ioService;
 	tcp::socket m_socket;
 	tcp::endpoint m_endpoint;
+	boost::thread m_thread;
 };
 
 void Client::syncConnect()
 {
-	m_socket.connect(m_endpoint);
+	m_thread = boost::thread([&]() {m_socket.connect(m_endpoint); });
 }
 
 inline void Client::disconnect()
