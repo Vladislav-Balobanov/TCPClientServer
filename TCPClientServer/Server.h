@@ -21,7 +21,7 @@ public:
 	void start();
 	void stop();
 	std::string getString();
-	void sebdString(std::string message);
+	void setString(std::string message);
 private:
 	tcp::socket m_socket;
 	tcp::endpoint m_endpoint;
@@ -56,7 +56,7 @@ inline std::string Server::getString()
 	}
 }
 
-inline void Server::sebdString(std::string message)
+inline void Server::setString(std::string message)
 {
 	m_socket.write_some(boost::asio::buffer(message));
 }

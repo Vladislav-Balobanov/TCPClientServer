@@ -22,6 +22,7 @@ public:
 	~Client() {}
 
 	void syncConnect(boost::system::error_code& error_code);
+	void sendCommand();
 	void disconnect();
 	void sendString(std::string message);
 	std::string getString();
@@ -29,7 +30,6 @@ private:
 	boost::asio::io_service m_ioService;
 	tcp::socket m_socket;
 	tcp::endpoint m_endpoint;
-	std::vector<std::string> m_commands;
 };
 
 void Client::syncConnect(boost::system::error_code& error_code)
