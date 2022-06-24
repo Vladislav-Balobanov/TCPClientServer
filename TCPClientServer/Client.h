@@ -1,15 +1,10 @@
-#pragma once
+#pragma onc
 #include <boost\asio.hpp>
 #include <boost\system.hpp>
 #include <boost\thread.hpp>
+#include <array>
 
 using namespace boost::asio::ip;
-
-enum Commands
-{
-	serverStart = 1,
-	ServerStop = 2
-};
 
 class Client
 {
@@ -22,7 +17,6 @@ public:
 	~Client() {}
 
 	void syncConnect(boost::system::error_code& error_code);
-	void sendCommand();
 	void disconnect();
 	void sendString(std::string message);
 	std::string getString();
@@ -54,13 +48,19 @@ inline void Client::sendString(std::string message)
 
 inline std::string Client::getString()
 {
-	char data[4096];
+	std::array<char, 4096> data;
 	std::size_t bytes = 0;
-	bytes = m_socket.read_some(boost::asio::buffer(data));
+	std::string result;
 
+	bytes = m_socket.read_some(boost::asio::buffer(data));
+	
 	if (bytes > 0)
 	{
-		return std::string(data, bytes);
+		for (auto element : data)
+		{
+			result += element;
+		}
+		return result;
 	}
 
 	return "Empty.";
