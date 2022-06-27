@@ -45,15 +45,14 @@ inline std::string Server::getString()
 	std::size_t bytes = 0;
 	bytes = boost::asio::read_until(m_socket, buffer, m_delimiter);
 	
-	if (bytes == 0)
-		return "Empty.";
-	else
+	if (bytes != 0)
 	{
 		std::istream is(&buffer);
 		std::string line;
 		std::getline(is, line);
 		return line;
 	}
+	return "Empty.";
 }
 
 inline void Server::setString(std::string message)
