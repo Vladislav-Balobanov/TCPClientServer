@@ -1,8 +1,5 @@
 #pragma once
-#pragma once
-#include <boost\asio.hpp>
-#include <boost\system.hpp>
-#include <boost\thread.hpp>
+#include "resources.h"
 
 using namespace boost::asio::ip;
 
@@ -16,12 +13,12 @@ public:
 		m_acceptor(ioService, m_endpoint),
 		m_delimiter("\n")
 	{}
-	~Server() {}
+	~Server() { stop(); }
 
 	void start();
 	void stop();
-	std::string getString();
-	void setString(std::string message);
+	std::string getMessage();
+	void print();
 private:
 	tcp::socket m_socket;
 	tcp::endpoint m_endpoint;
@@ -39,7 +36,7 @@ void Server::stop()
 	m_socket.shutdown(tcp::socket::shutdown_both);
 }
 
-inline std::string Server::getString()
+inline std::string Server::getMessage()
 {
 	boost::asio::streambuf buffer;
 	std::size_t bytes = 0;
@@ -55,7 +52,7 @@ inline std::string Server::getString()
 	return "Empty.";
 }
 
-inline void Server::setString(std::string message)
+inline void Server::print()
 {
-	m_socket.write_some(boost::asio::buffer(message));
+	std::cout << "Getting string is: \"" << getMessage() << "\"" << std::endl;
 }
